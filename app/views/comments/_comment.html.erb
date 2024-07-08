@@ -1,3 +1,27 @@
+<%= link_to "#", # comment,                      # removed the href since we're breaking the link anyway
+      # data: { turbo_method: :delete },         # removed the method since we're breaking the link anyway
+      method: :delete,
+      class: "btn btn-link btn-sm text-muted",
+      remote: true do,
+      id: "#comment_{comment.id}_delete_link" do # added an id to the link so that I can bind a click handler to it %>
+  
+  <i class="fas fa-trash fa-fw"></i>
+<% end %>
+<!-- ... -->
+<script>
+  // bind the click handler
+  $("#comment_<%= comment.id %>_delete_link").on("click", function() { 
+    
+    $.ajax({
+      url: "/comments/<%= comment.id %>", // what URL to submit a request to
+      type: "DELETE",                     // make it a DELETE request
+      dataType: "script"                  // what is the format of the request
+    });
+
+    return false;                         // break the link
+  });
+</script>
+
 <li class="list-group-item">
   <div class="d-flex">
     <div class="flex-shrink-0">
