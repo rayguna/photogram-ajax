@@ -1,13 +1,11 @@
-<%= link_to "#", # comment,                      # removed the href since we're breaking the link anyway
-      # data: { turbo_method: :delete },         # removed the method since we're breaking the link anyway
+<%= link_to comment,
       method: :delete,
       class: "btn btn-link btn-sm text-muted",
-      remote: true do,
-      id: "#comment_{comment.id}_delete_link" do # added an id to the link so that I can bind a click handler to it %>
-  
+      remote: true do %>
+
   <i class="fas fa-trash fa-fw"></i>
 <% end %>
-<!-- ... -->
+
 <script>
   // bind the click handler
   $("#comment_<%= comment.id %>_delete_link").on("click", function() { 
