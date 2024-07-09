@@ -9,15 +9,11 @@ added_comment.hide();
 $("#<%= dom_id(@comment.photo) %>_new_comment_form").before(added_comment);
 
 //reveal comment with effect
-added_comment.slideDown();
+//added_comment.slideDown();
+added_comment.fadeIn(5000);
 
 //delete the previous comments in the comments field.
 $("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
-
-//refresh page: https://tecadmin.net/refresh-page-with-jquery/
-$(document).ready(function(){
-   location.reload(true);
-});
 
 //display message in console.
 console.log("<%= @comment.body %>")

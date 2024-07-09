@@ -53,7 +53,7 @@ end
               <i class="fas fa-edit fa-fw"></i>
             <% end %>
 
-            <%= link_to comment, method: :delete, remote: true, class: "btn btn-link btn-sm text-muted" do %>
+            <%= link_to comment, method: :delete, class: "btn btn-link btn-sm text-muted", remote: true do %>
               <i class="fas fa-trash fa-fw"></i>
 
             <% end %>
@@ -239,15 +239,20 @@ added_comment.slideDown();
 //delete the previous comments in the comments field.
 $("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
 
+/*
 //refresh page: https://tecadmin.net/refresh-page-with-jquery/
 $(document).ready(function(){
    location.reload(true);
 });
 
+*/
+
 //display message in console.
 console.log("<%= @comment.body %>")
 console.log("Comment created successfully")
 ```
+
+TIPS: check the order of the parameters. If incorrect, the comment won't refresh correctly. If correct, the refresh page comment is no longer needed. 
 
 ### IV. Abbreviations 
 
@@ -274,3 +279,94 @@ render @comment
 ```
 var added_comment = $("<%= j(render @comment) %>");
 ```
+
+### V. Ajaxify edit
+
+1. Objective: when the edit icon is clicked, let’s replace the comment with an edit form, right in place.
+
+2. Follow the three-step process:
+  - Switch the link/form from HTML to JS with remote: true and (method: :delete if it is a DELETE request) on link_to, or local: false on form_with.
+    
+    ```
+    <!-- app/views/comments/_comment.html.erb -->
+
+    <% if current_user == comment.author %>
+    <%= link_to edit_comment_path(comment), class: "btn btn-link btn-sm text-muted", remote: true do %>
+      <i class="fas fa-edit fa-fw"></i>
+    <% end %>
+    ```
+
+  - Add format.js to the appropriate respond_to block within comments_controller.rb.
+
+    ```
+    //comments_controller.rb
+
+    def edit
+      respond_to do |format|
+        format.html
+        format.js
+      end
+    end
+    ```
+
+  - Write a JS response template. This will usually involve:
+    - Using or creating partials to represent the components being rendered via Ajax.
+    - Adding top-level elements with id="" attributes to the partials, if they don’t already have them.
+    - Writing some jQuery to select an existing element in the DOM and insert near it, replace it, etc.
+
+    ```
+    //app/views/comments/edit.js.erb
+
+    $("#<%= dom_id(@comment) %>").replaceWith("<%= j(render "comments/form", comment: @comment) %>");
+    ```
+
+### V. Ajaxify update
+
+1. Objective: when that form is submitted, let’s replace it with the updated comment, right in place.
+
+2. Follow the three-step process:
+  - Switch the link/form from HTML to JS with remote: true and (method: :delete if it is a DELETE request) on link_to, or local: false on form_with.
+    ```   
+    <!--app/views/comments/_form.html.erb-->
+
+    <li id="<%= dom_id(comment.photo) %>_<%= dom_id(comment) %>_form" class="list-group-item">
+    ```
+
+  - Add format.js to the appropriate respond_to block within comments_controller.rb.
+
+    ```
+    //app/controllers/comments_controller.rb
+
+    def update
+      respond_to do |format|
+        if @comment.update(comment_params)
+          format.html { redirect_to root_url, notice: "Comment was successfully updated." }
+          format.json { render :show, status: :ok, location: @comment }
+          format.js
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @comment.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+    ```
+
+  - Write a JS response template. This will usually involve:
+    - Using or creating partials to represent the components being rendered via Ajax.
+    - Adding top-level elements with id="" attributes to the partials, if they don’t already have them.
+    - Writing some jQuery to select an existing element in the DOM and insert near it, replace it, etc.
+
+    ```
+    //app/views/comments/update.js.erb
+
+    $("#<%= dom_id(@comment.photo) %>_<%= dom_id(@comment) %>_form").replaceWith("<%= j(render @comment) %>");
+    ```
+
+### VI. Other challenges
+Explore the target to find other things to practice Ajax on:
+
+Like/unlike
+
+Follow/unfollow
+
+<hr>
