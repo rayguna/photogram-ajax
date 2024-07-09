@@ -220,4 +220,57 @@ $("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
 
 - Why doesn't the page get refreshed automatically to show the effect? How to add timer?
 
+Added a refresh command:
+
+```
+// app/views/comments/create.js.erb
+
+
+var added_comment = $("<%= j(render @comment) %>");
+
+//hide comment
+added_comment.hide();
+
+$("#<%= dom_id(@comment.photo) %>_new_comment_form").before(added_comment);
+
+//reveal comment with effect
+added_comment.slideDown();
+
+//delete the previous comments in the comments field.
+$("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
+
+//refresh page: https://tecadmin.net/refresh-page-with-jquery/
+$(document).ready(function(){
+   location.reload(true);
+});
+
+//display message in console.
+console.log("<%= @comment.body %>")
+console.log("Comment created successfully")
+```
+
 ### IV. Abbreviations 
+
+Abbreviations:
+
+1. escape_javascript() helper — j():
+
+```
+var added_comment = $("<%= j(render 'comments/comment', comment: @comment) %>");
+```
+
+2. 
+```
+render 'comments/comment', comment: @comment
+```
+as
+
+```
+render @comment
+```
+
+3. Using both:
+
+```
+var added_comment = $("<%= j(render @comment) %>");
+```
