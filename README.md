@@ -218,6 +218,6 @@ $("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
 //console.log("Comment created successfully")
 ```
 
-- Why doesn't the page get refreshed automatically to show the effect? How toadd timer?
+- Why doesn't the page get refreshed automatically to show the effect? How to add timer?
 
 ### IV. Abbreviations 
