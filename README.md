@@ -365,8 +365,16 @@ var added_comment = $("<%= j(render @comment) %>");
 ### VI. Other challenges
 Explore the target to find other things to practice Ajax on:
 
-Like/unlike
+- Like/unlike
 
-Follow/unfollow
+- Follow/unfollow
+
+Lesson: https://learn.firstdraft.com/lessons/204-rails-unobtrusive-ajax
+
+Solutions:
+  - comments#destroy: https://github.com/appdev-projects/photogram-ajax/commit/ad9b6de74d6048b6f1c4b7dde6d3b5fd0f967194
+  - comments#create: https://github.com/appdev-projects/photogram-ajax/commit/b6cf072aa42a8a5e043218c4e02a92c65e6446dc
+  - comments#edit: https://github.com/appdev-projects/photogram-ajax/commit/8aab3e621e7a47030ce2dec916866ff8b141d16a
+  - comments#update: https://github.com/appdev-projects/photogram-ajax/commit/c18294a800e01a240bd2339a9c708d1cb64cf4dc
 
 <hr>
