@@ -390,7 +390,7 @@ Solutions:
         <%= form_with(model: like, local: false,class: "d-inline-block") do |form| %>
         ```
 
-      - just like in the tutorial, we have to modify views/likes/_like_.html.erb for destroy
+      - just like in the tutorial, we have to modify views/likes/_like.html.erb for destroy
         ```
         NEED TO DO
         ```
@@ -428,7 +428,17 @@ Solutions:
       ...
       ```
 
-      - create views/likes/create.html.erb and views/likes/destroy.html.erb. 
+      - create views/likes/create.js.erb and views/likes/destroy.js.erb. 
+
+      views.likes/create.js.erb
+      ```
+      console.log("Howdy from create.")
+      ```
+
+      views.likes/destroy.js.erb
+      ```
+      console.log("Howdy from destroy.")
+      ```
 
 NEED TO DO:
   iii. Write a JS response template. This will usually involve:
@@ -437,3 +447,100 @@ NEED TO DO:
     - Writing some jQuery to select an existing element in the DOM and insert near it, replace it, etc.
 
  
+-> Let's tackle one feature at a time. We will start out with ajaxing the like/create method first, we will worry about the unlike/destroy method second.
+
+2. Final solution and bottom line.
+    - You need to modify three files to ajaxify the CRUDE actions. Two of the modifications (one with the controller.rb file and another with the .html.erb file to re-route to js.erb) are straightforward.
+    - The third file is the creation of the .js.erb file and inserting the appropriate contents. For this modification, you need recognize the dom-id. You can determine that by inspecting the html page.
+
+    Here are the solutions for the js.eb files for each of the CRUDE actions for comments. You need to recognize the shorthand-one-line commands to appreciate the code:
+
+    C- CREATE
+    - create comment
+
+      ```
+      //app/views/comments/create.js.erb
+
+      var added_comment = $("<%= j(render @comment) %>");
+
+      added_comment.hide();
+
+      $("#<%= dom_id(@comment.photo) %>_new_comment_form").before(added_comment);
+
+      added_comment.slideDown();
+
+      $("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
+      ```
+
+    R - READ
+      ```
+      None
+      ```
+
+    U - UPDATE
+    - update comment
+      ```
+      app/views/comments/update.js.erb
+
+      $("#<%= dom_id(@comment.photo) %>_<%= dom_id(@comment) %>_form").replaceWith("<%= j(render @comment) %>");
+      ```
+
+    D - DELETE 
+
+    - destroy comment
+
+      ```
+      //app/views/comments/destroy.js.erb
+
+      $("#<%= dom_id(@comment) %>").fadeOut(function() {
+        $(this).remove();
+      });
+      ```
+
+    <hr>
+
+    E - EDIT
+
+    ```
+    //app/views/comments/edit.js.erb
+
+      $("#<%= dom_id(@comment) %>").replaceWith("<%= j(render "comments/form", comment: @comment) %>");
+    ```
+
+3. Here are the CRUDE solutions for the likes icon.
+
+    C - CREATE
+    ```
+    //app/views/likes/create.js.erb
+
+    var existingLikes = $("#<%= dom_id(@like.photo) %>_likes");
+
+    var updatedLikes = $("<%= j(render "photos/likes", photo: @like.photo) %>");
+
+    existingLikes.replaceWith(updatedLikes)
+
+    var icon = $("#<%=dom_id(@like.photo)%>_likes_icon")
+
+    icon.addClass("fa-beat")
+
+    icon.css("--fa-animation-iteration-count",1)
+
+    console.log("Like created successfully.")
+    ```
+
+    D- DESTROY
+    ```
+    //app/views/likes/destroy.js.erb
+
+    var existingLikes = $("#<%= dom_id(@like.photo) %>_likes");
+
+    var updatedLikes = $("<%= j(render "photos/likes", photo: @like.photo) %>");
+
+    existingLikes.replaceWith(updatedLikes)
+
+    var icon = $("#<%=dom_id(@like.photo)%>_likes_icon")
+
+    console.log("Like destroyed successfully.")
+    ```
+
+<hr>

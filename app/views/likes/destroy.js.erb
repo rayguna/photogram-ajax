@@ -1,0 +1,9 @@
+var existingLikes = $("#<%= dom_id(@like.photo) %>_likes");
+
+var updatedLikes = $("<%= j(render "photos/likes", photo: @like.photo) %>");
+
+existingLikes.replaceWith(updatedLikes)
+
+var icon = $("#<%=dom_id(@like.photo)%>_likes_icon")
+
+console.log("Like destroyed successfully.")
