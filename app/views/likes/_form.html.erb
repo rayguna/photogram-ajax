@@ -1,4 +1,6 @@
-<%= form_with(model: like, class: "d-inline-block") do |form| %>
+<li id="<%= dom_id(like.photo) %>_new_like_form" class="list-group-item">
+
+<%= form_with(model: like, local: false,class: "d-inline-block") do |form| %>
   <%= form.hidden_field :fan_id %>
 
   <%= form.hidden_field :photo_id %>

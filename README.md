@@ -378,3 +378,62 @@ Solutions:
   - comments#update: https://github.com/appdev-projects/photogram-ajax/commit/c18294a800e01a240bd2339a9c708d1cb64cf4dc
 
 <hr>
+
+### VII. Ajaxify like/unlike button
+
+1. Follow the three-step process:
+  i. Switch the link/form from HTML to JS with remote: true and (method: :delete if it is a DELETE request) on link_to, or local: false on form_with.
+      - just like in the tutorial, we have to modify views/likes/_form.html for create. Add a specific tag and add local: false.
+        ```
+        <li id="<%= dom_id(like.photo) %>_new_like_form" class="list-group-item">
+
+        <%= form_with(model: like, local: false,class: "d-inline-block") do |form| %>
+        ```
+
+      - just like in the tutorial, we have to modify views/likes/_like_.html.erb for destroy
+        ```
+        NEED TO DO
+        ```
+
+  ii. Add format.js to the appropriate respond_to block within `likes_controller.rb`. Observation: The liking and unliking a photo results in a creation and a destruction of likes.
+      - add format.js within def create and def destroy.
+      ```
+      def create
+        @like = Like.new(like_params)
+
+        respond_to do |format|
+          if @like.save
+            format.html { redirect_back fallback_location: root_url, notice: "Like was successfully created." }
+            format.json { render :show, status: :created, location: @like }
+
+            format.js
+            
+          else
+        ...
+      ```
+
+      and
+
+      ```
+      def destroy
+        @like.destroy
+        respond_to do |format|
+          format.html { redirect_back fallback_location: root_url, notice: "Like was successfully destroyed." }
+          format.json { head :no_content }
+
+          format.js
+          
+        end
+      end
+      ...
+      ```
+
+      - create views/likes/create.html.erb and views/likes/destroy.html.erb. 
+
+NEED TO DO:
+  iii. Write a JS response template. This will usually involve:
+    - Using or creating partials to represent the components being rendered via Ajax.
+    - Adding top-level elements with id="" attributes to the partials, if they don’t already have them.
+    - Writing some jQuery to select an existing element in the DOM and insert near it, replace it, etc.
+
+ 
