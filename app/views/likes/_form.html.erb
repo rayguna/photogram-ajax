@@ -4,7 +4,7 @@
   <%= form.hidden_field :photo_id %>
 
   <%= form.button class: "btn btn-link link-underline link-underline-opacity-0 link-underline-opacity-100-hover" do %>
-    <i class="far fa-heart fa-fw"></i>
+    <i id="<%= dom_id(like.photo) %>_likes_icon" class="far fa-heart fa-fw"></i>
 
     Like
   <% end %>

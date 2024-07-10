@@ -1,0 +1,12 @@
+console.log("Howdy from follow request.")
+
+var followRequest = $("#<%= dom_id(@follow_request.recipient) %>_recipient_id");
+
+console.log(followRequest)
+
+
+var unRequest = $("<%= j(render "follow_requests/follow_unfollow", follow_request: @follow_request.recipient) %>");
+
+console.log(unRequest)
+
+var followRequest.replaceWith(unRequest) 

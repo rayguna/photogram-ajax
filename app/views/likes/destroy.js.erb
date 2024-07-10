@@ -4,6 +4,12 @@ var updatedLikes = $("<%= j(render "photos/likes", photo: @like.photo) %>");
 
 existingLikes.replaceWith(updatedLikes)
 
-var icon = $("#<%=dom_id(@like.photo)%>_likes_icon")
+var icon = $("#<%= dom_id(@like.photo) %>_likes_icon")
 
-console.log("Like destroyed successfully.")
+console.log(icon)
+
+icon.addClass("fa-shake")
+
+icon.css("--fa-animation-iteration-count",1)
+
+console.log("Like created successfully.")

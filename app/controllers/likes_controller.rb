@@ -57,7 +57,7 @@ class LikesController < ApplicationController
       format.html { redirect_back fallback_location: root_url, notice: "Like was successfully destroyed." }
       format.json { head :no_content }
 
-      format.js
+      format.js 
       
     end
   end

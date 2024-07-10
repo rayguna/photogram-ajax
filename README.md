@@ -543,4 +543,64 @@ NEED TO DO:
     console.log("Like destroyed successfully.")
     ```
 
+### VIII. Follow Request
+
+1. The routine steps include applying the same three files :
+  - add parameter to the _form.html.erb file.
+  - create .js.erb within the views/follow_requests folder.
+  - add format.js to the follow_request_controller.rb file within the appropriate functions.
+
+2. First, let's observe what happens when the the follow/unfollow button is toggled without ajax.
+  - When the follow button is pressed, it says "created". 
+  - When the Un-request button is pressed, it says "destroyed".
+
+3. Therefore, let's start working on the create function. Go to follow_requests_controller.rb and add format.js.
+- modify follow_requests_controller.rb
+```
+//controller/follow_requests_controller.rb
+
+respond_to do |format|
+  if @follow_request.save
+    format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully created." }
+    format.json { render :show, status: :created, location: @follow_request }
+
+    format.js
+        respond_to do |format|
+  if @follow_request.save
+    format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully created." }
+    format.json { render :show, status: :created, location: @follow_request }
+
+    format.js
+```
+
+- Second, modify views/follow_requests/_form.html.erb, not the follow_requests.html.erb. Add the parameter local: false.
+
+```
+<%= form_with(model: follow_request, class: "d-inline-block", local: false) do |form| %>
+  <% if follow_request.errors.any? %>
+```
+
+- Third, make the file views/follow_rquests/create.js.erb.
+
+```
+console.log("Howdy from follow.")
+```
+
+4. Found the matching button as in the follow_unfollow html page:
+
+```
+<!-- views/follow_requests/follow_unfollow.html.erb. -->
+
+<% if follow_request.pending? %>
+  <%= link_to follow_request,  data: { turbo_method: :delete }, class: "btn btn-outline-secondary" do %>
+    Un-request
+  <% end %>
+```
+
+To determine the parameter associated with follow_request, go to the follow_requests_controller.rb. You will see @follow_requests being mentioned. To know the method, go to follow_requests/index.html.erb. In this case, it is .reciepient. To know the dom_id, for likes, I found it in views/photos/_likes.html.erb. go to...
+
+You can find the dom_id by inspecting the html page. and looking at the lines above the button.
+
+TIPS: look at likes example for directions.
+
 <hr>
