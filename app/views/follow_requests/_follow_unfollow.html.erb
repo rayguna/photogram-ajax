@@ -1,4 +1,4 @@
-<div class="<%= dom_id(sender) %>_<%= dom_id(recipient) %>">
+<div class="<%= dom_id(sender) %>_<%= dom_id(recipient) %>_follow_unfollow">
 
   <% unless sender == recipient %>
     <% follow_request = current_user.sent_follow_requests.find_by(recipient: recipient) %>

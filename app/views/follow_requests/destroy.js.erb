@@ -1,6 +1,6 @@
 console.log("Howdy from follow request.")
 
-var followRequest = $(".<%= dom_id(@follow_request.sender)%>_<%= dom_id(@follow_request.recipient) %>");
+var followRequest = $(".<%= dom_id(@follow_request.sender)%>_<%= dom_id(@follow_request.recipient) %>_follow_unfollow");
 
 var updatedFollowRequest = $("<%= j(render "follow_requests/follow_unfollow", sender: @follow_request.sender, recipient: @follow_request.recipient)%>");
 

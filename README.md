@@ -589,7 +589,7 @@ console.log("Howdy from follow.")
 4. Found the matching button as in the follow_unfollow html page:
 
 ```
-<!-- views/follow_requests/follow_unfollow.html.erb. -->
+<!-- views/follow_requests/_follow_unfollow.html.erb. -->
 
 <% if follow_request.pending? %>
   <%= link_to follow_request,  data: { turbo_method: :delete }, class: "btn btn-outline-secondary" do %>
@@ -600,6 +600,14 @@ console.log("Howdy from follow.")
 To determine the parameter associated with follow_request, go to the follow_requests_controller.rb. You will see @follow_requests being mentioned. To know the method, go to follow_requests/index.html.erb. In this case, it is .reciepient. To know the dom_id, for likes, I found it in views/photos/_likes.html.erb. go to...
 
 You can find the dom_id by inspecting the html page. and looking at the lines above the button.
+
+Essentially, you are making the changes solely within the partial html file (views/follow_requests/_follow_unfollow.html.erb).
+
+You can trace this partial being called in the views/photos/_photo.html.erb. Note the line:
+  ```
+  <%= render "follow_requests/follow_unfollow", sender: current_user, recipient: photo.owner %>
+  ```
+In the above, to render the page, it requires you to specify sender and recipient.
 
 TIPS: look at likes example for directions.
 
@@ -615,6 +623,19 @@ TIPS: look at likes example for directions.
  #id_name {
   background-attachment: green;
  }
-```
+``` 
 
+### Appendix A
+- To delete unmerged or merged branch, type `git branch -D <branchName>`.
+- If you forget to create a branch and you have been making changes on main:
+  - create a new branch from the latest changes with `git checkout -b <new-branch-name>
+`.
+  - Important! Publish the newly created branch. 
+  - Move the main to the earliest version (f683840) with:
+    
+    ```
+    git checkout main
+    git reset --hard f683840
+    ```
+  
 <hr>
