@@ -603,4 +603,18 @@ You can find the dom_id by inspecting the html page. and looking at the lines ab
 
 TIPS: look at likes example for directions.
 
+5. To determine the class id, look at the target, pull up the inspect page, and select "Network" > click on the element, and click on the name that pops up. Click on the "Headers" tab to view the general information, and click on the "Preview" tab to know the class name.
+
+6. You also have to assign a div class name to the follow_requests partial to be able to point to the follow/un-request button. Note that, unlike the "like" button, where you point to the element via a specific id, in this case, you point to it as a class. Below shows the difference between assigning a class and an id in css.
+
+```
+.class_name {
+  background-color: red;
+ }
+
+ #id_name {
+  background-attachment: green;
+ }
+```
+
 <hr>
