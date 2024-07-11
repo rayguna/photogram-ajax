@@ -1,20 +1,12 @@
-// app/views/comments/create.js.erb
-
-
 var added_comment = $("<%= j(render @comment) %>");
 
-//hide comment
 added_comment.hide();
 
 $("#<%= dom_id(@comment.photo) %>_new_comment_form").before(added_comment);
 
-//reveal comment with effect
-//added_comment.slideDown();
 added_comment.fadeIn(5000);
 
-//delete the previous comments in the comments field.
 $("#<%= dom_id(@comment.photo) %>_new_comment_form #comment_body").val("");
 
-//display message in console.
 console.log("<%= @comment.body %>")
 console.log("Comment created successfully")
