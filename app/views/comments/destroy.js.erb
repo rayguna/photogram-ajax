@@ -1,0 +1,8 @@
+
+// app/views/comments/destroy.js.erb
+
+$("#<%= dom_id(@comment) %>").fadeOut(5000, function() {
+  $(this).remove();
+});
+
+console.log("Comment deleted successfully!")

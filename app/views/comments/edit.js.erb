@@ -1,0 +1,4 @@
+var existingComment = $("#<%= dom_id(@comment) %>"); 
+var updatedComment = "<%= j(render "comments/form", comment: @comment) %>";
+
+existingComent.replaceWith(updatedComment);

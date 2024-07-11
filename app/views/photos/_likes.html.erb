@@ -5,9 +5,8 @@
     <% like = current_user.likes.find_by(photo: photo) %>
 
     <% if like %>
-      <%= link_to like, class: "btn btn-link link-underline-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover", data: { turbo_method: :delete } do %>
-        <i class="fas fa-heart fa-fw"></i>
-
+      <%= link_to like, class: "btn btn-link link-underline-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover", method: :delete, remote: true do %>
+        <i id="<%= dom_id(photo) %>_likes_icon" class="fas fa-heart fa-fw"></i>
         Un-like
       <% end %>
     <% else %>
